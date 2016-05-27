@@ -1,13 +1,12 @@
 from django.conf.urls import patterns, include, url
-from tastypie.api import Api
-from scrumboard.board.api import StoryResource, StageResource, BoardResource
-
-api = Api(api_name='api')
-api.register(StoryResource())
-api.register(StageResource())
-api.register(BoardResource())
-
+from scrumboard.board import views
 urlpatterns = patterns('',
-    url(r'^$', 'scrumboard.board.views.app', name='dashboard'),
-    (r'^', include(api.urls)),
+    url(r'^$', views.app, name='dashboard'),
+    url(r'^board/$',views.board),
+    url(r'^board/(?P<id>\d+)/$', views.boardOne),
+    url(r'^home',views.home),
+    url(r'^stage/$',views.stage),
+    url(r'^stage/(?P<id>\d+)/$', views.stageOne),
+    url(r'^story/$',views.story),
+    url(r'^story/(?P<id>\d+)/$', views.storyOne),
 )

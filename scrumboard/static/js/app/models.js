@@ -1,20 +1,20 @@
 var Board = Backbone.Model.extend({
-    urlRoot : "/api/board/"
+    urlRoot : "/board/"
 })
 var BoardSet = Backbone.Collection.extend({
-    url : "/api/board/",
+    url : "/board/",
     model : Board
 })
 
 var Story = Backbone.Model.extend({
-    urlRoot : "/api/story/"
+    urlRoot : "/story/"
 
 });
 var StorySet = Backbone.Collection.extend({
-    url : "/api/story/"
+    url : "/story/"
 });
 
 var Stage = Backbone.Model.extend()
 var StageSet = Backbone.Collection.extend({
-    url : "/api/stage/"
+    url : "/stage/"
 })

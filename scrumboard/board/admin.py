@@ -17,3 +17,7 @@ class StageAdmin(admin.ModelAdmin):
 
 admin.site.register(Stage, StageAdmin)
 admin.site.register(Board, BoardAdmin)
+
+class StoryAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Story, StoryAdmin)
