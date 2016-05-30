@@ -93,12 +93,11 @@ def create_board(request):
     logging.info(data)
     rec=Board()
     rec.user=User.objects.get(id=1)
-    # if data.get("channels")!=None:
-    #     rec.channels=data.get("channels")
     rec.title=data["title"]
     rec.save()
-    output={"success":True,"message":"Created new User" +str(rec.id)}
-    output["data"]={"id":rec.id,"shenhe":rec.shenhe,"hetongbh":rec.hetongbh,"yiqibh":rec.yiqibh,"yiqixinghao":rec.yiqixinghao,"yujifahuo_date":rec.yujifahuo_date,"yonghu":rec.yonghu,"baoxiang":rec.baoxiang,"addr":rec.addr,"channels":rec.channels,"tiaoshi_date":rec.tiaoshi_date}
+    output=rec.json()
+    #output={"success":True,"message":"Created new User" +str(rec.id)}
+    #output["data"]={"id":rec.id,"shenhe":rec.shenhe,"hetongbh":rec.hetongbh,"yiqibh":rec.yiqibh,"yiqixinghao":rec.yiqixinghao,"yujifahuo_date":rec.yujifahuo_date,"yonghu":rec.yonghu,"baoxiang":rec.baoxiang,"addr":rec.addr,"channels":rec.channels,"tiaoshi_date":rec.tiaoshi_date}
     return HttpResponse(json.dumps(output, ensure_ascii=False,cls=MyEncoder))
 def update_board(request):
     data = json.loads(request.body.decode("utf-8"))#extjs read data from body
@@ -239,10 +238,9 @@ def story(request):
     if request.method == 'DELETE':
         return destroy_story(request)
 def view_story(request):
-    # board_id=request.GET.get("board",'')
-    # board=Board.objects.get(id=int(board_id))
-    # logging.info(dir(board))
-    objs = Story.objects.all()
+    stage_id=request.GET.get("stage",'')
+    stage=Stage.objects.get(id=int(stage_id))
+    objs = stage.story_set.all()
     data=[]
     for rec in objs:
         data.append(rec.json())
@@ -251,12 +249,15 @@ def view_story(request):
 def create_story(request):
     data = json.loads(request.body.decode("utf-8"))#extjs read data from body
     logging.info(data)
-    rec=Story()
-    # if data.get("channels")!=None:
-    #     rec.channels=data.get("channels")
-    rec.save()
-    output={"success":True,"message":"Created new User" +str(rec.id)}
-    output["data"]={"id":rec.id,"shenhe":rec.shenhe,"hetongbh":rec.hetongbh,"yiqibh":rec.yiqibh,"yiqixinghao":rec.yiqixinghao,"yujifahuo_date":rec.yujifahuo_date,"yonghu":rec.yonghu,"baoxiang":rec.baoxiang,"addr":rec.addr,"channels":rec.channels,"tiaoshi_date":rec.tiaoshi_date}
+    obj=Story()
+    stage=Stage.objects.get(id=int(data["stage_id"]))
+    obj.stage=stage
+    obj.description=data["description"]
+    obj.color=data["color"]
+    if data.get("order")!=None:
+        obj.order=data["order"]
+    obj.save()
+    output=obj.json()
     return HttpResponse(json.dumps(output, ensure_ascii=False,cls=MyEncoder))
 def update_story(request):
     data = json.loads(request.body.decode("utf-8"))#extjs read data from body
@@ -318,6 +319,18 @@ def storyOne(request,id=None):
     if request.method == 'GET':
         output=Story.objects.get(id=int(id)).json()
         return HttpResponse(json.dumps(output, ensure_ascii=False,cls=MyEncoder))
+    if request.method == 'PUT':
+        data = json.loads(request.body.decode("utf-8"))
+        obj=Story()
+        stage=Stage.objects.get(id=int(data["stage_id"]))
+        obj.stage=stage
+        obj.description=data["description"]
+        obj.color=data["color"]
+        if data.get("order")!=None:
+            obj.order=data["order"]
+        obj.save()
+        output=obj.json()
+        return HttpResponse(json.dumps(output, ensure_ascii=False,cls=MyEncoder))                        
     if request.method == 'DELETE':
         obj=Story.objects.get(id=int(id))
         obj.delete()

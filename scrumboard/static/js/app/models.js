@@ -14,7 +14,9 @@ var StorySet = Backbone.Collection.extend({
     url : "/story/"
 });
 
-var Stage = Backbone.Model.extend()
+var Stage = Backbone.Model.extend({
+    urlRoot : "/stage/"
+});
 var StageSet = Backbone.Collection.extend({
     url : "/stage/"
-})
+});

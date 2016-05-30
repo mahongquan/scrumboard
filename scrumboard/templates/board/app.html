@@ -9,8 +9,9 @@
             $(document).delegate("a", "click", function(evt) {
                 var href = $(this).attr("href");
                 var protocol = this.protocol + "//";
-                if (href.slice(protocol.length) !== protocol) {
+                if (href!=undefined && href.slice(protocol.length) !== protocol) {
                     evt.preventDefault();
+                    console.log(href);
                     Backbone.history.navigate(href, true);
                 }
             });
@@ -74,7 +75,7 @@
 
     <script type="text/template" id="StoryTemplate">
         <a class="description" href="javascript: void 0" style="background-color:<%=color%>">
-            <%= description %>
+            <%= description %> <%= stage_id %>
         </a>
     </script>
 

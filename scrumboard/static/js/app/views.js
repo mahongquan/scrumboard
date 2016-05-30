@@ -71,7 +71,7 @@ var StorySetView = Backbone.View.extend({
         story.set({
             "description": "",
             "color" : "yellow",
-            "stage" : this.stage
+            "stage_id" : this.stage.id
         })
         story.save()
         this.model.add(story);
@@ -94,6 +94,8 @@ var StageItemView = Backbone.View.extend({
         this.model.bind('change', this.render, this)
         this.stories = new StorySet()
         this.storyset_view = new StorySetView({model:this.stories}, {stage:this.model})
+        console.log("stage id");
+        console.log(this.model.get("id"));
         this.stories.fetch( {data:{stage : this.model.get("id")}} )
     },
     render : function () {

@@ -26,7 +26,7 @@ class Stage(models.Model):
     order = models.IntegerField()
     title = models.CharField(max_length=30, choices=STAGE_CHOICES)
     def json(self):
-        return{"board_id":self.board,"order":self.order,"title":self.title}
+        return{"id":self.id,"board_id":self.board,"order":self.order,"title":self.title}
     class Meta:
         ordering = ["order", ]
 
@@ -47,7 +47,7 @@ class Story(models.Model):
     color = models.CharField(max_length=30, choices=COLOR_CHOICES)
     order = models.IntegerField(default=1)
     def json(self):
-        return {"stage_id":self.stage,"description":self.description,"color":self.color,"order":self.order}
+        return {"id":self.id,"stage_id":self.stage,"description":self.description,"color":self.color,"order":self.order}
     class Meta:
         ordering = ["order", ]
 
