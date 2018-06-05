@@ -1,6 +1,6 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from scrumboard.board import views
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', views.app, name='dashboard'),
     url(r'^board/$',views.board),
     url(r'^board/(?P<id>\d+)/$', views.boardOne),
@@ -9,4 +9,4 @@ urlpatterns = patterns('',
     url(r'^stage/(?P<id>\d+)/$', views.stageOne),
     url(r'^story/$',views.story),
     url(r'^story/(?P<id>\d+)/$', views.storyOne),
-)
+]

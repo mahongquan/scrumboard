@@ -2,10 +2,10 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.aggregates import Max, Count
 from django.db.models.signals import post_save
-#from django.utils.encoding import smart_unicode
+from django.db.models.deletion import CASCADE, SET_DEFAULT, SET_NULL
 
 class Board(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User,on_delete=CASCADE)
     title = models.CharField(max_length=255)
 
     def __str__(self):
@@ -22,7 +22,7 @@ STAGE_CHOICES = (
     ('done', 'Done'),
 )
 class Stage(models.Model):
-    board = models.ForeignKey(Board)
+    board = models.ForeignKey(Board,on_delete=CASCADE)
     order = models.IntegerField()
     title = models.CharField(max_length=30, choices=STAGE_CHOICES)
     def json(self):
@@ -42,7 +42,7 @@ COLOR_CHOICES = (
     ('orange', 'Orange'),
 )
 class Story(models.Model):
-    stage = models.ForeignKey(Stage)
+    stage = models.ForeignKey(Stage,on_delete=CASCADE)
     description = models.TextField()
     color = models.CharField(max_length=30, choices=COLOR_CHOICES)
     order = models.IntegerField(default=1)
