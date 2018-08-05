@@ -17,9 +17,16 @@ import  {Modal} from "react-bootstrap";
         // </a>
     // </script>
 class StoryForm extends Component{
-  state={color:"#b3ff20"}
+  state={color:"#b3ff20",description:""}
   color_change=(e)=>{
     this.setState({color:e.target.value});
+  }
+  onChange=(e)=>{
+    this.setState({description:e.target.value});
+  }
+  
+  save=()=>{
+
   }
   render=()=>{
     return(
@@ -33,7 +40,14 @@ class StoryForm extends Component{
               <tbody>
                <tr>
                 <td><label>Description</label></td>
-                <td ><textarea className="story" style={{backgroundColor:this.state.color}} name="description" id="description" cols="50" rows="5"></textarea></td>
+                <td >
+                  <textarea className="story" value={this.state.description} 
+                    onChange={this.onChange}
+                    style={{backgroundColor:this.state.color}} name="description" id="description"
+                     cols="50" rows="5">
+                  }
+                  </textarea>
+                </td>
                 </tr>
                 <tr>
                 <td><label>Color</label></td>
@@ -50,7 +64,7 @@ class StoryForm extends Component{
             </form>
         </Modal.Body>
         <Modal.Footer>
-            <button href="javascript: void 0" className="btn save btn-primary">Save changes</button>        
+            <button onClick={this.save} className="btn save btn-primary">Save changes</button>        
         </Modal.Footer>
         </Modal>
         );
