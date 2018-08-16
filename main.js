@@ -54,6 +54,20 @@ else{
 const createWindow = () => {
   // console.log("createWindow");
 
+
+// Keep a global reference of the window object, if you don't, the window will
+
+// be closed automatically when the JavaScript object is garbage collected.
+
+let mainWindow;
+
+ipcMain.on('getpath', (event, arg) => {
+    event.returnValue = process.argv[1];
+})
+
+const createWindow = () => {
+  console.log("createWindow");
+
   // Create the browser window.
 
   mainWindow = new BrowserWindow({
@@ -86,6 +100,7 @@ const createWindow = () => {
           label: 'HOME',
           accelerator: 'Ctrl+H',
           click: (item, win) =>{win.loadURL(indexUrl);},
+          click: (item, win) =>{win.loadURL(`file://${__dirname}/src/index.html`);},
         },
         {
           label: 'BACK',
@@ -126,6 +141,7 @@ const createWindow = () => {
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
   //
+  const devMode = (process.argv || []).indexOf('--local') !== -1;
   if (devMode) {
       mainWindow.openDevTools();
   }
@@ -133,9 +149,7 @@ const createWindow = () => {
 
   mainWindow.loadURL(indexUrl);
 
-  // Open the DevTools.
 
-  // /mainWindow.webContents.openDevTools();
   mainWindow.on('close', (e) => {
     // console.log("close");
     // console.log(e);

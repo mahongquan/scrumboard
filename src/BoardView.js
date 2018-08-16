@@ -1,24 +1,7 @@
 import React, { Component } from 'react';
 import  data from "./Data";
-import {Story} from './Data';
 import  {Modal} from "react-bootstrap";
 import StoryForm from "./StoryForm";
-// const duan_name=["todo","process","archive"];
-import {duan_name} from './Data';
-    // <script type="text/template" id="BoardItemTemplate">
-    //     <a href="/board/<%= item.id %>"><%= item.title %></a>
-    // </script>
-
-    // <script type="text/template" id="StageTemplate">
-    //     <h2><%= title %></h2>
-    //     <div class="stories"></div>
-    // </script>
-
-    // <script type="text/template" id="StoryTemplate">
-        // <a class="description" href="javascript: void 0" style="background-color:<%=color%>">
-        //     <%= description %> <%= stage_id %>
-        // </a>
-    // </script>
 class BoardView extends Component{  
   state={showModal:false,stage:null,story:null}
   closeModal=()=>{
