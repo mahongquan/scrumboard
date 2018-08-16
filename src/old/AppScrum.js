@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {withRouter, Link} from 'react-router-dom';
+import {Tabs, Tab, TabContainer, TabContent, TabPane} from 'react-bootstrap'
     // <script type="text/template" id="BoardItemTemplate">
     //     <a href="/board/<%= item.id %>"><%= item.title %></a>
     // </script>
@@ -95,8 +96,6 @@ clickBoard=(id)=>{
     });
     return (
   <div>
-  <style jsx="true">{`
-`} </style>
 <div className="container-fluid">
     <div className="row-fluid" id="header">
         <div className="span12" id="top-bar">
@@ -113,12 +112,24 @@ clickBoard=(id)=>{
     </div>
 
     <div id="select-board">
-        <button onClick={this.new_board} style={{float:"right",marginTop:"4px",marginBottom:"3px"}} 
+        <button onClick={this.new_board} 
+        style={{float:"right",marginTop:"4px",marginBottom:"3px"}} 
         className="btn btn-primary new" 
         href="javascript:void 0">Add Board</button>
          <ul className="nav nav-tabs">{boarditem_views}</ul>
     </div>
-   
+<Tabs defaultActiveKey={2} id="uncontrolled-tab-example">
+  <Tab eventKey={1} title="Tab 1">
+    Tab 1 content
+  </Tab>
+  <Tab eventKey={2} title="Tab 2">
+    Tab 2 content
+  </Tab>
+  <Tab eventKey={3} title="Tab 3" disabled>
+    Tab 3 content
+  </Tab>
+</Tabs>
+
 </div>
 
   </div>);}

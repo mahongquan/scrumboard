@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import {withRouter, Link} from 'react-router-dom';
 import  data from "./Data";
+import {Story} from './Data';
 import  {Modal} from "react-bootstrap";
+import StoryForm from "./StoryForm";
+// const duan_name=["todo","process","archive"];
+import {duan_name} from './Data';
     // <script type="text/template" id="BoardItemTemplate">
     //     <a href="/board/<%= item.id %>"><%= item.title %></a>
     // </script>
@@ -16,71 +19,71 @@ import  {Modal} from "react-bootstrap";
         //     <%= description %> <%= stage_id %>
         // </a>
     // </script>
-class StoryForm extends Component{
-  state={color:"#b3ff20"}
-  color_change=(e)=>{
-    this.setState({color:e.target.value});
-  }
-  render=()=>{
-    return(
-      <Modal  show={this.props.showModal}  onHide={this.props.closeModal}>
-        <Modal.Header closeButton>
-            <h2>Edit story</h2>
-        </Modal.Header>
-        <Modal.Body>
-            <form action="#">
-              <table>
-              <tbody>
-               <tr>
-                <td><label>Description</label></td>
-                <td ><textarea className="story" style={{backgroundColor:this.state.color}} name="description" id="description" cols="50" rows="5"></textarea></td>
-                </tr>
-                <tr>
-                <td><label>Color</label></td>
-                <td><select name="color" id="color" onChange={this.color_change}>
-                    <option value="#b3ff20">Green</option>
-                    <option value="#ff5382">Pink</option>
-                    <option value="yellow">Yellow</option>
-                    <option value="#76e9ff">Blue</option>
-                    <option value="#ffb618">Orange</option>
-                </select></td>
-              </tr>
-              </tbody>
-              </table>
-            </form>
-        </Modal.Body>
-        <Modal.Footer>
-            <button href="javascript: void 0" className="btn save btn-primary">Save changes</button>        
-        </Modal.Footer>
-        </Modal>
-        );
-  }
-}
 class BoardView extends Component{  
-  state={showModal:false}
+  state={showModal:false,stage:null,story:null}
   closeModal=()=>{
     this.setState({showModal:false});
   }
   newStroy=(stage)=>{
     console.log(stage)
-    this.setState({showModal:true});
+    this.setState({showModal:true,stage:stage,story:null});
   }  
+  editStory=(story)=>{
+    this.setState({showModal:true,story:story,stage:null});
+  }
   render=()=>{
-    console.log(this.state);
-    console.log(this.props);
-
-    let id=parseInt(this.props.match.params.id);
-    let item=data.boards[id];
-    let stages=data.boards[id].stages;
+    let index=this.props.index;
+    let item=data.config.boards[index];//index
+    let stories=data.config.boards[index].stories;
+    let stages=[];
+    for(var duan=0;duan<3;duan++){
+       const stories0= stories.filter(
+              (item, idx) => item.duan === duan,
+        );
+       let stage0={};
+       stage0.title=data.duan_name[duan]
+       stage0.stories=stories0;
+       stage0.board_index=index;
+       stage0.duan=duan
+       stages.push(stage0);
+     }
+     // const stories1= stories.filter(
+     //        (item, idx) => item.duan === 1,
+     //  );
+     // let stage1={};
+     // stage1.title="process"
+     // stage1.stories=stories1;
+     // stage0.board_index=index;
+     // stage0.duan=1 
+     // stages.push(stage1);
+     // const stories2= stories.filter(
+     //        (item, idx) => item.duan === 2,
+     //  );
+     // let stage2={};
+     // stage2.title="archive"
+     // stage2.stories=stories2;
+     // stage0.board_index=index;
+     // stage0.duan=2 
+     // stages.push(stage2);
     let div_stages=stages.map((item,key)=>{
         let div_stories=item.stories.map((item,key)=>{
-          return(<li className="story" >
-                        <a className="description" 
-                        href="javascript: void 0" style={{backgroundColor:"green"}}>
+          return(<li key={key} className="story" >
+                        <a className="description" onClick={()=>{this.editStory(item)}}
+                        href="javascript: void 0" style={{backgroundColor:item.color}}>
                         {item.description}
                         </a>
                       </li>);
         });
+        if(item.duan===2){
+          return(<div key={key} className="stage" > 
+                 <h2>{item.title}</h2>
+                 <div className="stories">
+                    <ul>
+                       {div_stories}
+                    </ul>
+                 </div>
+            </div>);
+        }
         return(<div key={key} className="stage" > 
                <h2>{item.title}</h2>
                <div className="stories">
@@ -95,13 +98,37 @@ class BoardView extends Component{
                </div>
           </div>);
     });
+    // let stages=data.config.boards[id].stages;
+    // let div_stages=stages.map((item,key)=>{
+    //     let div_stories=item.stories.map((item,key)=>{
+    //       return(<li key={key} className="story" >
+    //                     <a className="description" onClick={()=>{this.editStory(item)}}
+    //                     href="javascript: void 0" style={{backgroundColor:item.color}}>
+    //                     {item.description}
+    //                     </a>
+    //                   </li>);
+    //     });
+    //     return(<div key={key} className="stage" > 
+    //            <h2>{item.title}</h2>
+    //            <div className="stories">
+    //               <ul>
+    //                  {div_stories}
+    //                 <li className='drop'></li>
+    //                 <li className='not-sortable'>
+    //                 <button className='new btn btn-info btn-large' onClick={()=>{this.newStroy(item)}}>New</button>
+    //                 </li>
+
+    //               </ul>
+    //            </div>
+    //       </div>);
+    // });
     return(
 <div className="row-fluid" id="app">
     <div id="stages">
           {div_stages}
     </div>
-    <StoryForm showModal={this.state.showModal} closeModal={this.closeModal} />
+    <StoryForm story={this.state.story} stage={this.state.stage} showModal={this.state.showModal} closeModal={this.closeModal} />
 </div>)
   }
 }
-export default  withRouter(BoardView);
+export default  BoardView;
