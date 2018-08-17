@@ -5,10 +5,7 @@ class Board{
   constructor(title){
     this.title=title;
     this.id=Data.config.id++;
-    this.stages=[{id:Board.id1++,title:"要做",stories:[]}
-    ,{id:Board.id1++,title:"正在做",stories:[]}
-    ,{id:Board.id1++,title:"已完成 ",stories:[]}
-    ];
+    this.stories=[];
   }
 }
 function isObject(val) {
@@ -25,7 +22,7 @@ class Story{
 }
 const initpath=window.require('electron').ipcRenderer.sendSync('getpath');
 class Data{
-  static duan_name=["todo","process","archive"];
+  static duan_name=["将要做","进行中","存档"];
   static new_Story(board_index,color,description,duan){
     let s=new Story(color,description);
     s.duan=duan;

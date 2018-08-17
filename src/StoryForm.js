@@ -20,10 +20,10 @@ export default class StoryForm extends Component{
     }
   } 
   onShow=(nextProps)=>{
-    console.log("onShow");
-    console.log(nextProps);
+    // console.log("onShow");
+    // console.log(nextProps);
       if(nextProps.story){
-        console.log(nextProps);
+        // console.log(nextProps);
         this.setState({id:nextProps.story.id
           ,color:nextProps.story.color
           ,description:nextProps.story.description
@@ -70,10 +70,9 @@ export default class StoryForm extends Component{
     return(
       <Modal  show={this.props.showModal}  onHide={this.props.closeModal}>
         <Modal.Header closeButton>
-            <h2>Edit story</h2>
+            <h2>编辑事项</h2>
         </Modal.Header>
         <Modal.Body>
-            <form action="#">
               <table>
               <tbody>
                 <tr style={{display:"none"}}>
@@ -84,14 +83,14 @@ export default class StoryForm extends Component{
                 </td>
                 </tr>
                 <tr >
-                <td><label>time</label></td>
+                <td><label>时间</label></td>
                 <td >
-                  <input defaultValue={this.state.time}>
+                  <input  disabled="disabled" value={this.state.time}>
                   </input>
                 </td>
                 </tr>
                <tr>
-                <td><label>Description</label></td>
+                <td><label>内容</label></td>
                 <td >
                   <textarea className="story" value={this.state.description} 
                     onChange={this.onChange}
@@ -102,17 +101,17 @@ export default class StoryForm extends Component{
                 </td>
                 </tr>
                 <tr>
-                <td><label>Color</label></td>
+                <td><label>颜色</label></td>
                 <td><select name="color" id="color" onChange={this.color_change}>
-                    <option value="#b3ff20">Green</option>
-                    <option value="#ff5382">Pink</option>
-                    <option value="yellow">Yellow</option>
-                    <option value="#76e9ff">Blue</option>
-                    <option value="#ffb618">Orange</option>
+                    <option value="#b3ff20">绿</option>
+                    <option value="#ff5382">红</option>
+                    <option value="yellow">黄</option>
+                    <option value="#76e9ff">蓝</option>
+                    <option value="#ffb618">橙</option>
                 </select></td>
               </tr>
               <tr >
-                <td><label>duan</label></td>
+                <td><label>状态</label></td>
                 <td >
                   <input  disabled="disabled" value={data.duan_name[this.state.duan]} />
                   {div_upgrade}
@@ -120,11 +119,9 @@ export default class StoryForm extends Component{
                 </tr>
               </tbody>
               </table>
-            </form>
         </Modal.Body>
         <Modal.Footer>
-
-            <button onClick={this.save} className="btn save btn-primary">Save changes</button>        
+            <button onClick={this.save} className="btn save btn-primary">保存</button>        
         </Modal.Footer>
         </Modal>
         );

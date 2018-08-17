@@ -99,8 +99,8 @@ export default class AppScrum extends Component<Props> {
     }
   }
   render() {
-    console.log("render");
-    console.log(this.state);
+    // console.log("render");
+    // console.log(this.state);
     // let boarditem_views=this.state.boards.map((item,key)=>{
     //     return(<Tab eventKey={key} key={key} title={item.title}>
     //       <BoardView id={key} />
@@ -130,7 +130,7 @@ export default class AppScrum extends Component<Props> {
             <button onClick={this.new_board} 
             style={{float:"right",marginTop:"4px",marginBottom:"3px",height:"30px"}} 
             className="btn btn-primary new" 
-            href="javascript:void 0">Add Board</button>
+            href="javascript:void 0">新建事项板</button>
         </div>
     <Tabs>
         <TabList ref="tabList">

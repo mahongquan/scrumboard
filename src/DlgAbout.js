@@ -12,20 +12,32 @@ export default class App extends React.Component{
         onClose={this.props.closeModal}
       >
         <Modal.Header>
-            About Note
+            关于便帖薄
         </Modal.Header>
         <Modal.Body>
           <table>
           <tbody>
-          <tr><td>Version:</td><td>{data.config.version}</td></tr>
-          <tr><td>Author:</td><td>{data.config.author.name}</td></tr>
-          <tr><td>email:</td><td>{data.config.author.email}</td></tr>
-          <tr><td>website:</td><td><a onClick={this.onClick}>{data.config.website}</a></td></tr>
+          <tr><td><div style={{display:"flex"
+              ,marginRight:"10px"
+              ,justifyContent:"flex-end"
+              ,alignItems: "center"}}>版本:</div></td><td>{data.config.version}</td></tr>
+          <tr><td  style={{display:"flex"
+              ,marginRight:"10px"
+              ,justifyContent:"flex-end"
+              ,alignItems: "center"}}>作者:</td><td>{data.config.author.name}</td></tr>
+          <tr><td  style={{display:"flex"
+              ,marginRight:"10px"
+              ,justifyContent:"flex-end"
+              ,alignItems: "center"}}>电子邮箱:</td><td>{data.config.author.email}</td></tr>
+          <tr><td  style={{display:"flex"
+              ,marginRight:"10px"
+              ,justifyContent:"flex-end"
+              ,alignItems: "center"}}>网站:</td><td><a onClick={this.onClick}>{data.config.website}</a></td></tr>
           </tbody></table>
         </Modal.Body>
         <Modal.Footer>
-          <button onClick={this.props.closeModal}>
-            ok
+          <button className="btn btn-primary" onClick={this.props.closeModal}>
+            确定
           </button>
         </Modal.Footer>
       </Modal>;

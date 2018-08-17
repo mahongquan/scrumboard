@@ -46,6 +46,6 @@ module_name="./AppScrum2";
 link(where,"node_modules/react-tabs/style/react-tabs.css");
 link(where,"node_modules/bootstrap/dist/css/bootstrap.min.css");
 link(where,"node_modules/bootstrap/dist/css/bootstrap-theme.min.css");
-link("./","css/style.css");
+link("./","style.css");
 App=require(module_name).default;
 ReactDOM.render(<App />, document.getElementById('root'));

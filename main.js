@@ -54,20 +54,6 @@ else{
 const createWindow = () => {
   // console.log("createWindow");
 
-
-// Keep a global reference of the window object, if you don't, the window will
-
-// be closed automatically when the JavaScript object is garbage collected.
-
-let mainWindow;
-
-ipcMain.on('getpath', (event, arg) => {
-    event.returnValue = process.argv[1];
-})
-
-const createWindow = () => {
-  console.log("createWindow");
-
   // Create the browser window.
 
   mainWindow = new BrowserWindow({
@@ -80,10 +66,10 @@ const createWindow = () => {
   //menu
   const template=
     [{
-      label: 'File',
+      label: '文件',
       submenu: [
         {
-          label: 'Print',
+          label: '打印',
           accelerator: 'Ctrl+P',
           click: (item, win) =>{
             console.log(win);
@@ -92,22 +78,14 @@ const createWindow = () => {
           },
         },
         {
-          label: 'New Window',
+          label: '新窗口',
           accelerator: 'Ctrl+N',
           click: () =>{createWindow()},
         },
         {
-          label: 'HOME',
+          label: '重启',
           accelerator: 'Ctrl+H',
           click: (item, win) =>{win.loadURL(indexUrl);},
-          click: (item, win) =>{win.loadURL(`file://${__dirname}/src/index.html`);},
-        },
-        {
-          label: 'BACK',
-          accelerator: 'Ctrl+B',
-          click: (item, win) =>{
-            win.webContents.send("goback");
-          },
         },
          {
           label: 'DevTools',
@@ -117,7 +95,7 @@ const createWindow = () => {
           },
         },
         {
-          label: 'Exit',
+          label: '退出',
           accelerator: 'Ctrl+E',
           click: (item, win) =>{
              // console.log(win);
@@ -127,10 +105,10 @@ const createWindow = () => {
         }
         ]
     },{
-      label: 'Help',
+      label: '帮助',
       submenu: [
         {
-          label: 'About',
+          label: '关于',
           accelerator: 'Ctrl+A',
           click: (item, win) =>{
             win.webContents.send("about");
@@ -141,7 +119,6 @@ const createWindow = () => {
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
   //
-  const devMode = (process.argv || []).indexOf('--local') !== -1;
   if (devMode) {
       mainWindow.openDevTools();
   }
@@ -149,7 +126,9 @@ const createWindow = () => {
 
   mainWindow.loadURL(indexUrl);
 
+  // Open the DevTools.
 
+  // /mainWindow.webContents.openDevTools();
   mainWindow.on('close', (e) => {
     // console.log("close");
     // console.log(e);

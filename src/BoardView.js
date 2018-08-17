@@ -30,24 +30,6 @@ class BoardView extends Component{
        stage0.duan=duan
        stages.push(stage0);
      }
-     // const stories1= stories.filter(
-     //        (item, idx) => item.duan === 1,
-     //  );
-     // let stage1={};
-     // stage1.title="process"
-     // stage1.stories=stories1;
-     // stage0.board_index=index;
-     // stage0.duan=1 
-     // stages.push(stage1);
-     // const stories2= stories.filter(
-     //        (item, idx) => item.duan === 2,
-     //  );
-     // let stage2={};
-     // stage2.title="archive"
-     // stage2.stories=stories2;
-     // stage0.board_index=index;
-     // stage0.duan=2 
-     // stages.push(stage2);
     let div_stages=stages.map((item,key)=>{
         let div_stories=item.stories.map((item,key)=>{
           return(<li key={key} className="story" >
@@ -60,11 +42,9 @@ class BoardView extends Component{
         if(item.duan===2){
           return(<div key={key} className="stage" > 
                  <h2>{item.title}</h2>
-                 <div className="stories">
                     <ul>
                        {div_stories}
                     </ul>
-                 </div>
             </div>);
         }
         return(<div key={key} className="stage" > 
@@ -74,39 +54,15 @@ class BoardView extends Component{
                      {div_stories}
                     <li className='drop'></li>
                     <li className='not-sortable'>
-                    <button className='new btn btn-info btn-large' onClick={()=>{this.newStroy(item)}}>New</button>
+                    <button className='new btn btn-info btn-large' onClick={()=>{this.newStroy(item)}}>新事项</button>
                     </li>
 
                   </ul>
                </div>
           </div>);
     });
-    // let stages=data.config.boards[id].stages;
-    // let div_stages=stages.map((item,key)=>{
-    //     let div_stories=item.stories.map((item,key)=>{
-    //       return(<li key={key} className="story" >
-    //                     <a className="description" onClick={()=>{this.editStory(item)}}
-    //                     href="javascript: void 0" style={{backgroundColor:item.color}}>
-    //                     {item.description}
-    //                     </a>
-    //                   </li>);
-    //     });
-    //     return(<div key={key} className="stage" > 
-    //            <h2>{item.title}</h2>
-    //            <div className="stories">
-    //               <ul>
-    //                  {div_stories}
-    //                 <li className='drop'></li>
-    //                 <li className='not-sortable'>
-    //                 <button className='new btn btn-info btn-large' onClick={()=>{this.newStroy(item)}}>New</button>
-    //                 </li>
-
-    //               </ul>
-    //            </div>
-    //       </div>);
-    // });
     return(
-<div className="row-fluid" id="app">
+<div>
     <div id="stages">
           {div_stages}
     </div>
