@@ -18,31 +18,23 @@ function link(where,module_name) {
   document.head.appendChild(thelink);
 }
 function getWhere(){
-  let path=window.require('electron').ipcRenderer.sendSync('getpath');
+  let p=window.require('electron').ipcRenderer.sendSync('getpath');
+  console.log(p);
   let where;
-  if(path==="."){
-     where=".."; 
+  if(p==="."){
+     where=path.join(p,".."); 
   }
   else{
-    where="../.."
+    where=path.join(p,"../../..");
   }
+  console.log(where);
   return where;
 }
 let module_name;
 let where=getWhere();
+console.log(where);
 let App;
-// module_name="./AppTest";  
 module_name="./AppScrum2";  
-// if(module_name==="./AppTest")
-// {
-//     link(where,"node_modules/react-tabs/style/react-tabs.css");
-// }
-// else if(module_name==="./AppAnim")
-// {
-//     link("./","animate.min.css");
-// }
-// else if(module_name==="./AppScrumRoutes" ||)
-// {
 link(where,"node_modules/react-tabs/style/react-tabs.css");
 link(where,"node_modules/bootstrap/dist/css/bootstrap.min.css");
 link(where,"node_modules/bootstrap/dist/css/bootstrap-theme.min.css");

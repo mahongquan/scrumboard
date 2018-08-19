@@ -1,10 +1,13 @@
 {
   "name": "electron-quick-start",
   "version": "1.0.0",
+  "homepage": ".",
   "description": "A minimal Electron application",
   "main": "main.js",
+  "proxy": "http://localhost:8000/",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dev": "react-scripts start"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -16,12 +19,7 @@
   ],
   "author": "GitHub",
   "license": "CC0-1.0",
-  "devDependencies": {
-    "electron": "~1.8.2",
-    "node-gyp": "^3.6.2",
-    "sqlite3": "^3.1.13"
-  },
+  "devDependencies": {},
   "dependencies": {
-    "xls-to-json": "^0.4.0"
   }
 }
