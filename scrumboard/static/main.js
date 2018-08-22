@@ -68,6 +68,13 @@ const createWindow = () => {
     [{
       label: '文件',
       submenu: [
+       {
+          label: '保存',
+          accelerator: 'Ctrl+S',
+          click: (item, win) =>{
+            win.webContents.send("save");
+          },
+        },
         {
           label: '打印',
           accelerator: 'Ctrl+P',

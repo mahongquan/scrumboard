@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import  {Modal} from "react-bootstrap";
 import  data from "./Data";
+var moment = require('moment');
+var locale=require('moment/locale/zh-cn');
+// var DateTime=require('react-datetime');
 
 export default class StoryForm extends Component{
-  state={id:-1,color:"#b3ff20",description:"",time:new Date(),duan:0}
+  state={id:-1,color:"#b3ff20",description:"",time:moment(),duan:0}
   color_change=(e)=>{
     this.setState({color:e.target.value});
   }
@@ -24,13 +27,20 @@ export default class StoryForm extends Component{
     // console.log(nextProps);
       if(nextProps.story){
         // console.log(nextProps);
+        let t=nextProps.story.time;
+        if(!t){
+          t=moment();
+        }
         this.setState({id:nextProps.story.id
           ,color:nextProps.story.color
           ,description:nextProps.story.description
+          ,time:t
           ,duan:nextProps.story.duan});
       }
       else{
-        this.setState({id:-1,color:"#b3ff20",description:"",duan:nextProps.stage.duan});
+        this.setState({id:-1,color:"#b3ff20",description:""
+          ,time:moment()
+          ,duan:nextProps.stage.duan});
       }
   }
   onHide=()=>{
@@ -49,11 +59,16 @@ export default class StoryForm extends Component{
         this.props.story.color=this.state.color;
         this.props.story.description=this.state.description;
         this.props.story.duan=this.state.duan;
+        this.props.story.time=this.state.time;
         this.props.closeModal();
     }
     else{
         // this.props.stage.stories.push(new Story(this.state.color,this.state.description));
-        let s=data.new_Story(this.props.stage.board_index,this.state.color,this.state.description,this.props.stage.duan);
+        let s=data.new_Story(this.props.stage.board_index
+          ,this.state.color
+          ,this.state.description
+          ,this.state.duan
+          ,this.state.time);
         // s.duan=this.props.stage.duan;
         // data.config.boards[this.props.stage.board_index].stories.push(s);
         this.props.closeModal();
@@ -73,42 +88,43 @@ export default class StoryForm extends Component{
             <h2>编辑事项</h2>
         </Modal.Header>
         <Modal.Body>
-              <table>
+              <table style={{width:"100%"}}>
               <tbody>
                 <tr style={{display:"none"}}>
                 <td><label>id</label></td>
                 <td >
-                  <input defaultValue={this.state.id}>
-                  </input>
+                  <input defaultValue={this.state.id} />
                 </td>
                 </tr>
                 <tr >
                 <td><label>时间</label></td>
                 <td >
-                  <input  disabled="disabled" value={this.state.time}>
-                  </input>
+                  <input  disabled="disabled" value={this.state.time.toLocaleString()} />
                 </td>
                 </tr>
                <tr>
                 <td><label>内容</label></td>
                 <td >
-                  <textarea className="story" value={this.state.description} 
+                  <textarea  value={this.state.description} 
                     onChange={this.onChange}
-                    style={{backgroundColor:this.state.color}} name="description" id="description"
-                     cols="50" rows="5">
-                  }
-                  </textarea>
+                    style={{fontSize:"24px"
+                      ,borderRadius: "0.3em"
+                      ,backgroundColor:this.state.color
+                      ,width:"100%"}} 
+                    rows="5" />
                 </td>
                 </tr>
                 <tr>
                 <td><label>颜色</label></td>
-                <td><select name="color" id="color" onChange={this.color_change}>
+                <td>
+                  <select name="color" value={this.state.color} id="color" onChange={this.color_change}>
                     <option value="#b3ff20">绿</option>
                     <option value="#ff5382">红</option>
                     <option value="yellow">黄</option>
                     <option value="#76e9ff">蓝</option>
                     <option value="#ffb618">橙</option>
-                </select></td>
+                  </select>
+                </td>
               </tr>
               <tr >
                 <td><label>状态</label></td>

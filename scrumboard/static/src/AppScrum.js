@@ -1,34 +1,55 @@
 import React, { Component } from 'react';
 import BoardView from './BoardView';
-// import  data from "./Data";
+import  data from "./Data";
+// import {Board} from "./Data";
 import  {Modal} from "react-bootstrap";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import DlgAbout from './DlgAbout';
 import DlgInput from "./DlgInput";
 import DlgOkCancel from './DlgOkCancel';
-import Client from "./Client";
-// const ipcRenderer = window.require('electron').ipcRenderer; //
+
+const ipcRenderer = window.require('electron').ipcRenderer; //
 
 export default class AppScrum extends Component<Props> {
   constructor(){
     super();
-    this.state={boards:[]
+    data.getconfig();
+    this.state={boards:data.config.boards
+      ,class_anim:""
       ,show_input:false
       ,show_about:false
       ,show_ok:false}
-    
+    if(ipcRenderer){
+        ipcRenderer.on("request_close",()=>{
+          data.saveconfig();
+          ipcRenderer.send("close");
+        })
+        ipcRenderer.on("about",()=>{
+          this.setState({show_about:true});
+        })
+        ipcRenderer.on("save",()=>{
+          data.saveconfig();
+          this.anim();
+        })
+    }
   }
   updateValue=(e)=>{
       //console.log(e.target.value);
       this.setState({
-        selectValue: e.target.value+' animated',
+        class_anim: e.target.value+' animated',
       });
       setTimeout(this.check,1000);
   }
   componentDidMount=() => {
-    Client.get("/board",(res)=>{
-      console.log(res);
-    },()=>{})     
+     this.anim();
+  }
+  anim=()=>{
+    //console.log(e.target.value);
+    this.setState({
+      class_anim: 'bounceOutRight animated',
+    },()=>{
+      setTimeout(this.check,1000);
+    });
   }
   animationEnd = (el)=> {
     var animations = {
@@ -47,9 +68,9 @@ export default class AppScrum extends Component<Props> {
   }
 
   check=()=>{
-    if(this.animationEnd(this.refs.contactedit)){
-      console.log("end");
-      this.setState({selectValue:""})
+    if(this.animationEnd(this.refs.div_anim)){
+      // console.log("end");
+      this.setState({class_anim:""})
     }
     else{
         setTimeout(this.check,1000);
@@ -58,7 +79,7 @@ export default class AppScrum extends Component<Props> {
   new_board=()=>{
     // console.log("new board");
     // boards=this.state.boards;
-    // console.log(data);
+    console.log(data);
     // data.boards.push(new Board('aaaaa'));
     this.setState({show_input:true});// boards:data.boards});
 
@@ -75,19 +96,19 @@ export default class AppScrum extends Component<Props> {
   }
   close_input=(name)=>{
     if(name){
-      // data.new_Board(name);
-      // this.setState({boards:data.config.boards});    
+      data.new_Board(name);
+      this.setState({boards:data.config.boards});    
     }
     this.setState({show_input:false});
   }
   close_ok=(sure)=>{
     this.setState({show_ok:false});
     if(sure){
-      // const filteredFoods = data.config.boards.filter(
-      //       (item, idx) => this.idx !== idx,
-      // );
-      // data.config.boards=filteredFoods;
-      // this.setState({boards:data.config.boards});    
+      const filteredFoods = data.config.boards.filter(
+            (item, idx) => this.idx !== idx,
+      );
+      data.config.boards=filteredFoods;
+      this.setState({boards:data.config.boards});    
     }
   }
   render() {
@@ -110,26 +131,26 @@ export default class AppScrum extends Component<Props> {
     });
     let boarditem_panels=this.state.boards.map((item,key)=>{
         return(
-        <TabPanel key={key}>
+        <TabPanel key={key} style={{padding:"0px 10px 10px 10px"}}>
           <BoardView index={key} />
         </TabPanel>
         ); 
     });
     return (
-  <div>
-    <div className="container-fluid">
-          <div id="select-board">
+  <div  ref="div_anim" className={this.state.class_anim}>
+    <div>
+        <div id="select-board">
             <button onClick={this.new_board} 
             style={{float:"right",marginTop:"4px",marginBottom:"3px",height:"30px"}} 
             className="btn btn-primary new" 
             href="javascript:void 0">新建事项板</button>
         </div>
-    <Tabs>
-        <TabList ref="tabList">
-              {boarditem_list}
-        </TabList>
-        {boarditem_panels}
-      </Tabs>
+        <Tabs>
+          <TabList ref="tabList">
+                {boarditem_list}
+          </TabList>
+          {boarditem_panels}
+        </Tabs>
     </div>
     <DlgInput showModal={this.state.show_input} closeModal={this.close_input} />
     <DlgOkCancel description="删除事项板" showModal={this.state.show_ok} closeModal={this.close_ok} />

@@ -12,17 +12,17 @@ function isObject(val) {
   return val != null && typeof val === 'object' && Array.isArray(val) === false;
 };
 class Story{
- constructor(color,description){
+ constructor(color,description,duan,time){
  	this.color=color;
  	this.description=description;
  	this.id=Data.config.id++;
-  this.time=new Date();
-  this.duan=0;
+  this.time=time;
+  this.duan=duan;
  }
 }
 const initpath=window.require('electron').ipcRenderer.sendSync('getpath');
 class Data{
-  static duan_name=["将要做","进行中","存档"];
+  static duan_name=["将要做","进行中","已完成"];
   static new_Story(board_index,color,description,duan){
     let s=new Story(color,description);
     s.duan=duan;
@@ -32,7 +32,7 @@ class Data{
     let b=new Board(name);
     Data.config.boards.push(b);
   }
-  static saveconfig=(data)=>{
+  static saveconfig=()=>{
       const configName = 'config.json';
       let configPath = path.join(initpath, configName);
       fs.writeFileSync(configPath, JSON.stringify(Data.config));
@@ -44,6 +44,7 @@ class Data{
         console.log(configPath);
         let data=fs.readFileSync(configPath, { enconding: 'utf-8' });
         Data.config=JSON.parse(data);
+        // console.log(Data.config);
         if(!isObject(Data.config))
         {
           Data.config={};
