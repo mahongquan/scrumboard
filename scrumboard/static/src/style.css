@@ -1,3 +1,7 @@
+html {
+  font-size: 1rem;
+  overflow-wrap: break-word;
+}
 #header {
     margin-top: 20px;
 }
@@ -34,13 +38,10 @@ h3 {
 
 
 .stage {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
     /*padding: 5px 20px 20px 20px;*/
     /*border-right: 1px dashed #d1d1d1;*/
-    width: 19%;
-    float: left;
-
-
+    width: 33%;
 }
 .stage ul {
     min-height: 400px;
@@ -98,7 +99,8 @@ footer a:hover{ background: #49708a; color: white;}
     color: #262626;
     display:block;
     min-height: 5em;
-    width: 70%;
+    border-radius: 0.3em;
+    width: 90%;
     padding:1em;
     -moz-box-shadow:-8px -2px 19px rgba(33,33,33,1);
     -webkit-box-shadow: -2px 19px 7px rgba(33,33,33,.7);
