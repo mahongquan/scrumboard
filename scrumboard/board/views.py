@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 import time
 import os
 import logging
@@ -21,7 +21,6 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import Group
-from django.shortcuts import render_to_response
 from scrumboard.settings import STATIC_URL
 from scrumboard.board.models import *
 class MyEncoder(json.JSONEncoder):
@@ -38,10 +37,12 @@ class MyEncoder(json.JSONEncoder):
             return obj.id
         return json.JSONEncoder.default(self, obj)  
 def app(request):
-    return render_to_response("board/app.html",{"STATIC_URL":STATIC_URL})
+    # return render_to_response("board/app.html",{"STATIC_URL":STATIC_URL})
+    return render(request, "board/app.html", {"STATIC_URL":STATIC_URL}, content_type='text/html')
 
 def home(request):
-    return render_to_response("index.html",{"STATIC_URL":STATIC_URL})
+    # return render_to_response("index.html",{"STATIC_URL":STATIC_URL})
+    return render(request, "index.html", {"STATIC_URL":STATIC_URL}, content_type='text/html')
 def boardOne(request,id=None):
 	if request.method == 'GET':
 		output=Board.objects.get(id=int(id)).json()
