@@ -251,7 +251,7 @@ def create_story(request):
     data = json.loads(request.body.decode("utf-8"))#extjs read data from body
     logging.info(data)
     obj=Story()
-    stage=Stage.objects.get(id=int(data["stage_id"]))
+    stage=Stage.objects.get(id=int(data["stage"]["id"]))
     obj.stage=stage
     obj.description=data["description"]
     obj.color=data["color"]
