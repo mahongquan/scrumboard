@@ -32,20 +32,20 @@ class BoardView extends Component{
     }
     let div_stages=stages.map((item,key)=>{
         let div_stories=item.stories.map((item,key)=>{
-        	if(item.duan==2){
+        	if(item.duan===2){
 				return(<li key={key} >
-                        <a className="description" onClick={()=>{this.editStory(item)}}
-                        href="javascript: void 0" style={{backgroundColor:item.color}}>
+                        <button className="description" onClick={()=>{this.editStory(item)}}
+                         style={{backgroundColor:item.color}}>
                         {item.description}
-                        </a>
+                        </button>
                       </li>);
         	}
         	else{
           		return(<li key={key} className="story" >
-                        <a className="description" onClick={()=>{this.editStory(item)}}
-                        href="javascript: void 0" style={{backgroundColor:item.color}}>
+                        <button className="description" onClick={()=>{this.editStory(item)}}
+                         style={{backgroundColor:item.color}}>
                         {item.description}
-                        </a>
+                        </button>
                       </li>);
           	}
         });

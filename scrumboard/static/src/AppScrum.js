@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BoardView from './BoardView';
-import  data from "./Data";
+// import  data from "./Data";
 // import {Board} from "./Data";
 import  {Modal} from "react-bootstrap";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -8,30 +8,17 @@ import DlgAbout from './DlgAbout';
 import DlgInput from "./DlgInput";
 import DlgOkCancel from './DlgOkCancel';
 
-const ipcRenderer = window.require('electron').ipcRenderer; //
+// const ipcRenderer = window.require('electron').ipcRenderer; //
 
 export default class AppScrum extends Component<Props> {
   constructor(){
     super();
-    data.getconfig();
-    this.state={boards:data.config.boards
+    // data.getconfig();
+    this.state={boards:[]
       ,class_anim:""
       ,show_input:false
       ,show_about:false
       ,show_ok:false}
-    if(ipcRenderer){
-        ipcRenderer.on("request_close",()=>{
-          data.saveconfig();
-          ipcRenderer.send("close");
-        })
-        ipcRenderer.on("about",()=>{
-          this.setState({show_about:true});
-        })
-        ipcRenderer.on("save",()=>{
-          data.saveconfig();
-          this.anim();
-        })
-    }
   }
   updateValue=(e)=>{
       //console.log(e.target.value);
@@ -79,7 +66,7 @@ export default class AppScrum extends Component<Props> {
   new_board=()=>{
     // console.log("new board");
     // boards=this.state.boards;
-    console.log(data);
+    // console.log(data);
     // data.boards.push(new Board('aaaaa'));
     this.setState({show_input:true});// boards:data.boards});
 
@@ -96,19 +83,19 @@ export default class AppScrum extends Component<Props> {
   }
   close_input=(name)=>{
     if(name){
-      data.new_Board(name);
-      this.setState({boards:data.config.boards});    
+      // data.new_Board(name);
+      this.setState({boards:[]});    
     }
     this.setState({show_input:false});
   }
   close_ok=(sure)=>{
     this.setState({show_ok:false});
     if(sure){
-      const filteredFoods = data.config.boards.filter(
-            (item, idx) => this.idx !== idx,
-      );
-      data.config.boards=filteredFoods;
-      this.setState({boards:data.config.boards});    
+      // const filteredFoods = data.config.boards.filter(
+      //       (item, idx) => this.idx !== idx,
+      // );
+      // data.config.boards=filteredFoods;
+      this.setState({boards:[]});    
     }
   }
   render() {
@@ -143,7 +130,7 @@ export default class AppScrum extends Component<Props> {
             <button onClick={this.new_board} 
             style={{float:"right",marginTop:"4px",marginBottom:"3px",height:"30px"}} 
             className="btn btn-primary new" 
-            href="javascript:void 0">新建事项板</button>
+            >新建事项板</button>
         </div>
         <Tabs>
           <TabList ref="tabList">

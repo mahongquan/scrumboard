@@ -1,10 +1,10 @@
 import React from 'react';
 import  {Modal} from "react-bootstrap";
-import  data from "./Data";
-var {electron}=window.require("electron");//
+// import  data from "./Data";
+// var {electron}=window.require("electron");//
 export default class App extends React.Component{
   onClick=()=>{
-    electron.shell.openExternal(data.config.website);
+    // electron.shell.openExternal(data.config.website);
   }
   render=()=>{
     return <Modal
@@ -20,19 +20,19 @@ export default class App extends React.Component{
           <tr><td><div style={{display:"flex"
               ,marginRight:"10px"
               ,justifyContent:"flex-end"
-              ,alignItems: "center"}}>版本:</div></td><td>{data.config.version}</td></tr>
+              ,alignItems: "center"}}>版本:</div></td><td>{""}</td></tr>
           <tr><td  style={{display:"flex"
               ,marginRight:"10px"
               ,justifyContent:"flex-end"
-              ,alignItems: "center"}}>作者:</td><td>{data.config.author.name}</td></tr>
+              ,alignItems: "center"}}>作者:</td><td>{""}</td></tr>
           <tr><td  style={{display:"flex"
               ,marginRight:"10px"
               ,justifyContent:"flex-end"
-              ,alignItems: "center"}}>电子邮箱:</td><td>{data.config.author.email}</td></tr>
+              ,alignItems: "center"}}>电子邮箱:</td><td>{""}</td></tr>
           <tr><td  style={{display:"flex"
               ,marginRight:"10px"
               ,justifyContent:"flex-end"
-              ,alignItems: "center"}}>网站:</td><td><a onClick={this.onClick}>{data.config.website}</a></td></tr>
+              ,alignItems: "center"}}>网站:</td><td><button onClick={this.onClick}>{""}</button></td></tr>
           </tbody></table>
         </Modal.Body>
         <Modal.Footer>

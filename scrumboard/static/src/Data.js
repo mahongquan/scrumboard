@@ -1,5 +1,6 @@
-const fs=window.require("fs");
-const path=window.require("path");
+import Client from './Client';
+// const fs=window.require("fs");
+// const path=window.require("path");
 class Board{
   static id1=0;
   constructor(title){
@@ -20,7 +21,7 @@ class Story{
   this.duan=duan;
  }
 }
-const initpath=window.require('electron').ipcRenderer.sendSync('getpath');
+// const initpath=window.require('electron').ipcRenderer.sendSync('getpath');
 class Data{
   static duan_name=["将要做","进行中","已完成"];
   static new_Story(board_index,color,description,duan){
@@ -33,42 +34,42 @@ class Data{
     Data.config.boards.push(b);
   }
   static saveconfig=()=>{
-      const configName = 'config.json';
-      let configPath = path.join(initpath, configName);
-      fs.writeFileSync(configPath, JSON.stringify(Data.config));
+      // const configName = 'config.json';
+      // let configPath = path.join(initpath, configName);
+      // fs.writeFileSync(configPath, JSON.stringify(Data.config));
   }
   static getconfig=()=>{
-      try{
-        const configName = 'config.json';
-        let configPath = path.join(initpath, configName);
-        console.log(configPath);
-        let data=fs.readFileSync(configPath, { enconding: 'utf-8' });
-        Data.config=JSON.parse(data);
-        // console.log(Data.config);
-        if(!isObject(Data.config))
-        {
-          Data.config={};
-        }
-        if(!Data.config.id){
-          Data.config.id=0;
-        }
-        if(!Data.config.version){
-          Data.config.version="0.1";
-        }
-        if(!Data.config.author){
-          Data.config.author={name:"mahongquan",email:"mahongquan@sina.com"};
-        }
-        if(!Data.config.website){
-          Data.config.website="";
-        }
-        if(!Data.config.boards){
-          Data.config.boards=[];
-        }
-      }
-      catch(e){
-      	console.log(e);
-        return {};
-      }
+      // try{
+      //   const configName = 'config.json';
+      //   let configPath = path.join(initpath, configName);
+      //   console.log(configPath);
+      //   let data=fs.readFileSync(configPath, { enconding: 'utf-8' });
+      //   Data.config=JSON.parse(data);
+      //   // console.log(Data.config);
+      //   if(!isObject(Data.config))
+      //   {
+      //     Data.config={};
+      //   }
+      //   if(!Data.config.id){
+      //     Data.config.id=0;
+      //   }
+      //   if(!Data.config.version){
+      //     Data.config.version="0.1";
+      //   }
+      //   if(!Data.config.author){
+      //     Data.config.author={name:"mahongquan",email:"mahongquan@sina.com"};
+      //   }
+      //   if(!Data.config.website){
+      //     Data.config.website="";
+      //   }
+      //   if(!Data.config.boards){
+      //     Data.config.boards=[];
+      //   }
+      // }
+      // catch(e){
+      // 	console.log(e);
+      //   return {};
+      // }
  }
  static config={}
  
