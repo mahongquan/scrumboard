@@ -4,14 +4,15 @@ import BoardView from './BoardView';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab'
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
 import DlgAbout from './DlgAbout';
 import DlgInput from "./DlgInput";
 import DlgOkCancel from './DlgOkCancel';
 import Client from "./Client"
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import PersonPinIcon from '@material-ui/icons/PersonPin';
-// const ipcRenderer = window.require('electron').ipcRenderer; //
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -153,25 +154,25 @@ class AppScrum extends Component<Props> {
     });
     return (
   <div  ref="div_anim" className={classes.root+" "+this.state.class_anim}>
-    <div>
-        <div id="select-board" style={{float:"right",marginTop:"4px",marginBottom:"3px",height:"30px"}} >
-            <button onClick={this.new_board} 
-            className="btn btn-primary new" 
-            >新建</button>
-            <button onClick={this.deleteBoard}>
+    <AppBar position="static">
+        <Toolbar>
+        <Button onClick={this.new_board} 
+            >新建</Button>
+            <Button onClick={this.deleteBoard}>
              删除
-            </button>
-            <button onClick={()=>{
+            </Button>
+            <Button onClick={()=>{
               this.setState({show_about:true})
             }}>
              关于
-            </button>
-        </div>
+            </Button>
+            </Toolbar>    
         <Tabs onChange={this.handleChange}>
           {boarditem_list}
         </Tabs>
-        {boarditem_panels[value]}
-    </div>
+
+    </AppBar>
+    {boarditem_panels[value]}
     <DlgInput showModal={this.state.show_input} closeModal={this.close_input} />
     <DlgOkCancel description="删除事项板" open={this.state.show_ok} closeModal={this.close_ok} />
     <DlgAbout showModal={this.state.show_about} closeModal={()=>{

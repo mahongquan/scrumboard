@@ -37,7 +37,7 @@ export default class DlgInput extends Component{
             <h2>input name</h2>
         </DialogTitle>
         <DialogContent>
-                  <input style={{width:"100%"}} value={this.state.description} 
+                  <input value={this.state.description} 
                     onChange={this.onChange} />
         </DialogContent>
         <DialogActions>
