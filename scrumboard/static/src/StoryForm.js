@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import  {Modal} from "react-bootstrap";
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+
 var moment = require('moment');
 // var locale=require('moment/locale/zh-cn');
 // var DateTime=require('react-datetime');
@@ -82,11 +86,11 @@ export default class StoryForm extends Component{
        div_upgrade=(<button onClick={this.upgrade}>完成</button>);
     }
     return(
-      <Modal  show={this.props.showModal}  onHide={this.props.closeModal}>
-        <Modal.Header closeButton>
+      <Dialog  show={this.props.showModal}  onHide={this.props.closeModal}>
+        <DialogTitle>
             <h2>编辑事项</h2>
-        </Modal.Header>
-        <Modal.Body>
+        </DialogTitle>
+        <DialogContent>
               <table style={{width:"100%"}}>
               <tbody>
                 <tr style={{display:"none"}}>
@@ -134,11 +138,11 @@ export default class StoryForm extends Component{
                 </tr>
               </tbody>
               </table>
-        </Modal.Body>
-        <Modal.Footer>
+        </DialogContent>
+        <DialogActions>
             <button onClick={this.save} className="btn save btn-primary">保存</button>        
-        </Modal.Footer>
-        </Modal>
+        </DialogActions>
+        </Dialog>
         );
   }
 }

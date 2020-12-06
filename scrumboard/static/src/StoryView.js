@@ -55,7 +55,7 @@ export default class StoryView extends Component{
           	}
         });
     return(
-    <div id="stages" style={{display:"flex"}}>
+    <div id="stories" style={{display:"flex",flexDirection:"column"}}>
           {div_stories}
     </div>
     )

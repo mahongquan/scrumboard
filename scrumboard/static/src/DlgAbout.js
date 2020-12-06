@@ -1,5 +1,8 @@
 import React from 'react';
-import  {Modal} from "react-bootstrap";
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
 // import  data from "./Data";
 // var {electron}=window.require("electron");//
 export default class App extends React.Component{
@@ -7,14 +10,14 @@ export default class App extends React.Component{
     // electron.shell.openExternal(data.config.website);
   }
   render=()=>{
-    return <Modal
-        show={this.props.showModal}
+    return <Dialog
+        open={this.props.showModal}
         onClose={this.props.closeModal}
       >
-        <Modal.Header>
+        <DialogTitle>
             关于便帖薄
-        </Modal.Header>
-        <Modal.Body>
+        </DialogTitle>
+        <DialogContent>
           <table>
           <tbody>
           <tr><td><div style={{display:"flex"
@@ -34,12 +37,12 @@ export default class App extends React.Component{
               ,justifyContent:"flex-end"
               ,alignItems: "center"}}>网站:</td><td><button onClick={this.onClick}>{""}</button></td></tr>
           </tbody></table>
-        </Modal.Body>
-        <Modal.Footer>
+        </DialogContent>
+        <DialogActions>
           <button className="btn btn-primary" onClick={this.props.closeModal}>
             确定
           </button>
-        </Modal.Footer>
-      </Modal>;
+        </DialogActions>
+      </Dialog>;
     }
 }

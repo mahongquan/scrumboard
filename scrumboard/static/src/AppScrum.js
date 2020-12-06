@@ -1,22 +1,49 @@
 import React, { Component } from 'react';
 import BoardView from './BoardView';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+// import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { withStyles } from '@material-ui/core/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab'
 import DlgAbout from './DlgAbout';
 import DlgInput from "./DlgInput";
 import DlgOkCancel from './DlgOkCancel';
 import Client from "./Client"
+import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
+import PersonPinIcon from '@material-ui/icons/PersonPin';
 // const ipcRenderer = window.require('electron').ipcRenderer; //
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+});
+function TabPanel(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
 
-export default class AppScrum extends Component<Props> {
+TabPanel.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+class AppScrum extends Component<Props> {
   constructor(){
     super();
     // data.getconfig();
-    this.state={boards:[]
-      ,class_anim:""
-      ,show_input:false
-      ,show_about:false
-      ,show_ok:false}
+    this.state={
+      boards:[],
+      value:0,
+      class_anim:"",
+      show_input:false,
+      show_about:false,
+      show_ok:false}
   }
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
   updateValue=(e)=>{
       //console.log(e.target.value);
       this.setState({
@@ -83,8 +110,7 @@ export default class AppScrum extends Component<Props> {
     this.setState({activeid:id});
     this.props.history.push("/board/"+id);
   }
-  deleteBoard=(key)=>{
-    this.idx=key;
+  deleteBoard=()=>{
     this.setState({show_ok:true});
   }
   close_input=(name)=>{
@@ -101,10 +127,12 @@ export default class AppScrum extends Component<Props> {
       //       (item, idx) => this.idx !== idx,
       // );
       // data.config.boards=filteredFoods;
-      this.setState({boards:[]});    
+      // this.setState({boards:[]});    
     }
   }
   render() {
+    const { classes } = this.props;
+    const { value } = this.state;
     // console.log("render");
     // console.log(this.state);
     // let boarditem_views=this.state.boards.map((item,key)=>{
@@ -113,13 +141,7 @@ export default class AppScrum extends Component<Props> {
     //     </Tab>); 
     // });
     let boarditem_list=this.state.boards.map((item,key)=>{
-        return(<Tab key={key} board_id={item.id}>
-          <div>
-          <span >{item.title}</span>
-          <span  style={{marginLeft:"30px",cursor:"default"}}onClick={()=>{
-            this.deleteBoard(item.id);
-          }} className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          </div>
+        return(<Tab  label={item.title} key={key} board_id={item.id}>
           </Tab>); 
     });
     let boarditem_panels=this.state.boards.map((item,key)=>{
@@ -130,25 +152,31 @@ export default class AppScrum extends Component<Props> {
         ); 
     });
     return (
-  <div  ref="div_anim" className={this.state.class_anim}>
+  <div  ref="div_anim" className={classes.root+" "+this.state.class_anim}>
     <div>
-        <div id="select-board">
+        <div id="select-board" style={{float:"right",marginTop:"4px",marginBottom:"3px",height:"30px"}} >
             <button onClick={this.new_board} 
-            style={{float:"right",marginTop:"4px",marginBottom:"3px",height:"30px"}} 
             className="btn btn-primary new" 
-            >新建事项板</button>
+            >新建</button>
+            <button onClick={this.deleteBoard}>
+             删除
+            </button>
+            <button onClick={()=>{
+              this.setState({show_about:true})
+            }}>
+             关于
+            </button>
         </div>
-        <Tabs>
-          <TabList ref="tabList">
-                {boarditem_list}
-          </TabList>
-          {boarditem_panels}
+        <Tabs onChange={this.handleChange}>
+          {boarditem_list}
         </Tabs>
+        {boarditem_panels[value]}
     </div>
     <DlgInput showModal={this.state.show_input} closeModal={this.close_input} />
-    <DlgOkCancel description="删除事项板" showModal={this.state.show_ok} closeModal={this.close_ok} />
+    <DlgOkCancel description="删除事项板" open={this.state.show_ok} closeModal={this.close_ok} />
     <DlgAbout showModal={this.state.show_about} closeModal={()=>{
       this.setState({show_about:false});
     }} />
   </div>);}
 }
+export default withStyles(styles)(AppScrum);

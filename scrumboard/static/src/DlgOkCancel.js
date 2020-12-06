@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import  {Modal} from "react-bootstrap";
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+
 export default class DlgOkCancel extends Component{
   componentWillReceiveProps(nextProps) {
     if(!this.props.showModal && nextProps.showModal){
@@ -22,18 +26,18 @@ export default class DlgOkCancel extends Component{
   }
   render=()=>{
     return(
-      <Modal  show={this.props.showModal}  onHide={this.props.closeModal}>
-        <Modal.Header closeButton>
+      <Dialog  open={this.props.open}  onHide={this.props.closeModal}>
+        <DialogTitle>
             <h2>Are you sure?</h2>
-        </Modal.Header>
-        <Modal.Body>
+        </DialogTitle>
+        <DialogContent>
           {this.props.description}
-        </Modal.Body>
-        <Modal.Footer>
+        </DialogContent>
+        <DialogActions>
             <button onClick={this.ok} className="btn save btn-primary">Ok</button>        
             <button onClick={this.cancel} className="btn save btn-primary">Cancel</button>        
-        </Modal.Footer>
-        </Modal>
+        </DialogActions>
+        </Dialog>
         );
   }
 }
