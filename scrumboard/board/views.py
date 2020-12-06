@@ -263,34 +263,19 @@ def create_story(request):
     return HttpResponse(json.dumps(output, ensure_ascii=False,cls=MyEncoder))
 def update_story(request):
     data = json.loads(request.body.decode("utf-8"))#extjs read data from body
+    logging.info(data)
     id1=data.get("id")
     id1=int(id1)
     rec=Story.objects.get(id=id1)
-    if data.get("hetongbh")!=None:
-        rec.hetongbh=data["hetongbh"]
-    if data.get("yujifahuo_date")!=None:
-        dt=datetime.datetime.strptime(data["yujifahuo_date"],'%Y-%m-%d')
-        rec.yujifahuo_date=dt.date()
-    if data.get("yonghu")!=None:
-        rec.yonghu=data.get("yonghu")
-    if data.get("baoxiang")!=None:
-        rec.baoxiang=data.get("baoxiang")
-    if data.get("yiqixinghao")!=None:
-        rec.yiqixinghao=data.get("yiqixinghao")
-    if data.get("yiqibh")!=None:
-        rec.yiqibh=data.get("yiqibh")
-    if data.get("shenhe")!=None:
-        rec.shenhe=data.get("shenhe")
-    if data.get("addr")!=None:
-        rec.addr=data.get("addr")
-    if data.get("channels")!=None:
-        rec.channels=data.get("channels")
-    if data.get("tiaoshi_date")!=None:
-        dt=datetime.datetime.strptime(data["tiaoshi_date"],'%Y-%m-%d')
-        rec.tiaoshi_date=dt.date()
+    if data.get("description")!=None:
+        rec.description=data["description"]
+    if data.get("color")!=None:
+        rec.color=data["color"]
+    if data.get("order")!=None:
+        rec.color=data["order"]
     rec.save()
     output={"success":True,"message":"update Story " +str(rec.id)}
-    output["data"]={"id":rec.id,"shenhe":rec.shenhe,"hetongbh":rec.hetongbh,"yiqibh":rec.yiqibh,"yiqixinghao":rec.yiqixinghao,"yujifahuo_date":rec.yujifahuo_date,"yonghu":rec.yonghu,"baoxiang":rec.baoxiang,"addr":rec.addr,"channels":rec.channels,"tiaoshi_date":rec.tiaoshi_date}
+    output["data"]={"id":rec.id,"stage_id":rec.stage_id,"description":rec.description,"color":rec.color,"order":rec.order}
     return HttpResponse(json.dumps(output, ensure_ascii=False,cls=MyEncoder))
 def destroy_story(request):
     data = json.loads(request.body.decode("utf-8"))
@@ -323,6 +308,22 @@ def storyOne(request,id=None):
         return HttpResponse(json.dumps(output, ensure_ascii=False,cls=MyEncoder))
     if request.method == 'PUT':
         data = json.loads(request.body.decode("utf-8"))
+        logging.info(data);
+        obj=Story.objects.get(id=int(id))
+        if data.get("description")!=None:
+            obj.description=data["description"]
+        if data.get("color")!=None:
+            obj.color=data["color"]
+        if data.get("order")!=None:
+            obj.order=data["order"]
+        obj.save()
+        output=obj.json()
+        logging.info(output)
+        return HttpResponse(json.dumps(output, ensure_ascii=False,cls=MyEncoder))                        
+
+    if request.method == 'POST':
+        data = json.loads(request.body.decode("utf-8"))
+        logging.info(data);
         obj=Story()
         stage=Stage.objects.get(id=int(data["stage_id"]))
         obj.stage=stage
