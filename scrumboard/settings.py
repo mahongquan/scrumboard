@@ -2,7 +2,7 @@
 import logging
 import os
 from scrumboard.utils import here
-APPEND_SLASH=False
+# APPEND_SLASH=False
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
