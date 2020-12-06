@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import  {Modal} from "react-bootstrap";
-import  data from "./Data";
 var moment = require('moment');
-var locale=require('moment/locale/zh-cn');
+// var locale=require('moment/locale/zh-cn');
 // var DateTime=require('react-datetime');
 
 export default class StoryForm extends Component{
@@ -64,11 +63,11 @@ export default class StoryForm extends Component{
     }
     else{
         // this.props.stage.stories.push(new Story(this.state.color,this.state.description));
-        let s=data.new_Story(this.props.stage.board_index
-          ,this.state.color
-          ,this.state.description
-          ,this.state.duan
-          ,this.state.time);
+        // let s=data.new_Story(this.props.stage.board_index
+        //   ,this.state.color
+        //   ,this.state.description
+        //   ,this.state.duan
+        //   ,this.state.time);
         // s.duan=this.props.stage.duan;
         // data.config.boards[this.props.stage.board_index].stories.push(s);
         this.props.closeModal();
@@ -129,7 +128,7 @@ export default class StoryForm extends Component{
               <tr >
                 <td><label>状态</label></td>
                 <td >
-                  <input  disabled="disabled" value={data.duan_name[this.state.duan]} />
+                  <input  disabled="disabled" value={""} />
                   {div_upgrade}
                 </td>
                 </tr>

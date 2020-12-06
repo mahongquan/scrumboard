@@ -31,7 +31,7 @@ function myFetch(method, url, body, cb, headers2, err_callback) {
     .then((response)=>{
       // console.log(response);
     	if (response.status >= 200 && response.status < 300) {
-        console.log(response);
+        // console.log(response);
     	  	var r = response.json();
 		    r.then(cb).catch(err_callback);
 		  }
@@ -95,76 +95,24 @@ function postForm(url, data, cb,err_callback) {
   })
 
 }
-function contacts(data, cb, err_callback) {
-  return get('/rest/Contact/', data, cb, err_callback);
+function boards(data, cb, err_callback) {
+  return get('/board', data, cb, err_callback);
 }
-function UsePacks(query, cb,err_callback) {
-  var data = { contact: query };
-  return get('/rest/UsePack/', data, cb,err_callback);
+function board(data, cb, err_callback) {
+  return get('/board/'+data.id, {}, cb, err_callback);
 }
-function PackItems(query, cb) {
-  var data = { pack: query };
-  return get('/rest/PackItem/', data, cb);
+function stages(data, cb, err_callback) {
+  return get('/stage', data, cb, err_callback);
 }
-function items(query, cb) {
-  var data = { search: query };
-  return get('/rest/Item/', data, cb);
-}
-// function sql(query, cb) {
-//   var data = { query: query };
-//   return get('/sql/', data, cb);
-// }
-
-function login_index(cb) {
-  return get('/rest/login', undefined, cb);
-}
-function logout(cb) {
-  return get('/rest/logout', undefined, cb);
-}
-
-function login(username, password, cb) {
-  //post form
-  var payload = {
-    username: username,
-    password: password,
-  };
-  var body = queryString.stringify(payload);
-  return myFetch('POST', '/rest/login', body, cb, {
-    'META':'CSRF_COOKIE',
-    'Content-Type': 'application/x-www-form-urlencoded',
-  });
-}
-
-// function checkStatus(response) {
-//   if (response.status >= 200 && response.status < 300) {
-//     return response;
-//   }
-//   const error = new Error(`HTTP Error ${response.statusText}`);
-//   error.status = response.statusText;
-//   error.response = response;
-//   throw error;
-// }
-
-// function parseJSON(response) {
-//   var r = response.json();
-//   return r;
-// }
-function sql(cmd, callback) {
-  get('/rest/sql', { cmd: cmd }, callback, null);
+function storys(data, cb, err_callback) {
+  return get('/story', data, cb, err_callback);
 }
 const Client = {
   init: (m, callback) => {
     callback();
   },
-  sql,
-  getRaw,
-  contacts,
-  items,
-  login_index,
-  login,
-  logout,
-  UsePacks,
-  PackItems,
+  boards,stages,
+  board,storys,
   get,put,
   post,
   postOrPut,

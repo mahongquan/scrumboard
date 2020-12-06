@@ -239,6 +239,7 @@ def story(request):
     if request.method == 'DELETE':
         return destroy_story(request)
 def view_story(request):
+    logging.info(request.GET)
     stage_id=request.GET.get("stage",'')
     stage=Stage.objects.get(id=int(stage_id))
     objs = stage.story_set.all()

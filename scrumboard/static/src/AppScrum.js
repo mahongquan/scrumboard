@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import BoardView from './BoardView';
-// import  data from "./Data";
-// import {Board} from "./Data";
-import  {Modal} from "react-bootstrap";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import DlgAbout from './DlgAbout';
 import DlgInput from "./DlgInput";
 import DlgOkCancel from './DlgOkCancel';
-
+import Client from "./Client"
 // const ipcRenderer = window.require('electron').ipcRenderer; //
 
 export default class AppScrum extends Component<Props> {
@@ -29,6 +26,15 @@ export default class AppScrum extends Component<Props> {
   }
   componentDidMount=() => {
      this.anim();
+     this.loaddata();
+  }
+  loaddata=()=>{
+    let data={}
+    let err_callback=null;
+    Client.boards(data, (res)=>{
+      console.log(res);
+      this.setState({boards:res});
+    }, err_callback)
   }
   anim=()=>{
     //console.log(e.target.value);
@@ -107,19 +113,19 @@ export default class AppScrum extends Component<Props> {
     //     </Tab>); 
     // });
     let boarditem_list=this.state.boards.map((item,key)=>{
-        return(<Tab key={key}>
+        return(<Tab key={key} board_id={item.id}>
           <div>
           <span >{item.title}</span>
           <span  style={{marginLeft:"30px",cursor:"default"}}onClick={()=>{
-            this.deleteBoard(key);
+            this.deleteBoard(item.id);
           }} className="glyphicon glyphicon-remove" aria-hidden="true"></span>
           </div>
           </Tab>); 
     });
     let boarditem_panels=this.state.boards.map((item,key)=>{
         return(
-        <TabPanel key={key} style={{padding:"0px 10px 10px 10px"}}>
-          <BoardView index={key} />
+        <TabPanel  key={key} style={{padding:"0px 10px 10px 10px"}}>
+          <BoardView board_id={item.id} index={key} />
         </TabPanel>
         ); 
     });

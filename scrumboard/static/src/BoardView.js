@@ -1,12 +1,34 @@
 import React, { Component } from 'react';
-import  data from "./Data";
-import  {Modal} from "react-bootstrap";
+import  Client from "./Client"
 import StoryForm from "./StoryForm";
-var moment = require('moment');
-var locale=require('moment/locale/zh-cn');
+import StoryView from "./StoryView";
+// var moment = require('moment');
+// var locale=require('moment/locale/zh-cn');
 // var DateTime=require('react-datetime');
 class BoardView extends Component{  
-  state={showModal:false,stage:null,story:null}
+  state={showModal:false,stages:[],stage:null,story:null}
+  componentDidMount = () => {
+    if (this.props.board_id) {
+      this.loaddata(this.props.board_id);
+    }
+    this.unload=false;
+  };
+  componentWillUnmount = () => {
+    this.unload = true;
+  };
+  componentDidUpdate(prevProps) {
+    if (prevProps.board_id !== this.props.board_id && this.props.board_id) {
+      this.load_data(this.props.board_id);
+    }
+  }
+  loaddata=(id)=>{
+    let data={board:id}
+    let err_callback=null;
+    Client.stages(data, (res)=>{
+      // console.log(res);
+      this.setState({stages:res});
+    }, err_callback)
+  }
   closeModal=()=>{
     this.setState({showModal:false});
   }
@@ -18,51 +40,12 @@ class BoardView extends Component{
     this.setState({showModal:true,story:story,stage:null});
   }
   render=()=>{
-    let index=this.props.index;
-    let item=data.config.boards[index];//index
-    let stories=data.config.boards[index].stories;
-    let stages=[
-      {duan:0,board_index:index,stories:[],title:data.duan_name[0]}
-      ,{duan:1,board_index:index,stories:[],title:data.duan_name[1]}
-      ,{duan:2,board_index:index,stories:[],title:data.duan_name[2]}];
-    for(var i=0;i<stories.length;i++){
-      let item=stories[i];
-      item.time=moment(item.time);
-      stages[item.duan].stories.push(item)
-    }
-    let div_stages=stages.map((item,key)=>{
-        let div_stories=item.stories.map((item,key)=>{
-        	if(item.duan===2){
-				return(<li key={key} >
-                        <button className="description" onClick={()=>{this.editStory(item)}}
-                         style={{backgroundColor:item.color}}>
-                        {item.description}
-                        </button>
-                      </li>);
-        	}
-        	else{
-          		return(<li key={key} className="story" >
-                        <button className="description" onClick={()=>{this.editStory(item)}}
-                         style={{backgroundColor:item.color}}>
-                        {item.description}
-                        </button>
-                      </li>);
-          	}
-        });
-        if(item.duan===2){
-          return(<div key={key} className="stage"> 
-                <h2>{item.title}</h2>
-                <ul>
-                   {div_stories}
-                </ul>
-            </div>);
-        }
-        else{
+    let div_stages=this.state.stages.map((item,key)=>{
            return(<div key={key} className="stage" > 
                <h2>{item.title}</h2>
                <div className="stories"> 
                   <ul>
-                     {div_stories}
+                     <StoryView key={key} stageid={item.id}></StoryView>
                     <li className='drop'></li>
                     <li className='not-sortable'>
                     <button className='new btn btn-info btn-large' onClick={()=>{this.newStroy(item)}}>新事项</button>
@@ -71,7 +54,6 @@ class BoardView extends Component{
                   </ul>
                </div>
           </div>);
-        }
     });
     return(
 <div>
